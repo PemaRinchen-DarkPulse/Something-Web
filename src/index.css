@@ -1,0 +1,159 @@
+@import 'tailwindcss';
+
+/*
+ * ZhingPool design tokens.
+ * Flat design: no box shadows anywhere. Separation comes from borders,
+ * background tone and spacing.
+ */
+@theme {
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  --color-primary: #246b45;
+  --color-primary-hover: #1d5a3a;
+  --color-primary-soft: #e8f3ec;
+  --color-primary-mid: #7fb394;
+
+  --color-canvas: #f7f9f7;
+  /* Page background behind the white panels. Deeper than canvas so the panels stand out. */
+  --color-backdrop: #e4ebe6;
+  --color-surface: #ffffff;
+  --color-subtle: #f1f5f2;
+  --color-ink: #1f2933;
+  --color-muted: #718096;
+  --color-line: #e5eae6;
+  --color-line-strong: #d3dbd5;
+
+  --color-success: #27864b;
+  --color-success-soft: #e6f3ea;
+  --color-warning: #b87a14;
+  --color-warning-soft: #fbf1dc;
+  --color-danger: #d9534f;
+  --color-danger-soft: #fbe9e8;
+  --color-info: #3b82b8;
+  --color-info-soft: #e4eff7;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 0.75rem;
+
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-xl: none;
+  --shadow-2xl: none;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+  }
+
+  body {
+    margin: 0;
+    background: var(--color-backdrop);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-primary-soft);
+  }
+}
+
+/* The page itself has no scrollbar column, so the header and panels run edge to edge. */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+/* Slim, quiet scrollbars for scrolling containers (tables, modals, lists) only.
+   They are deliberately NOT applied to form fields: styling scrollbars on text
+   inputs draws a stray strip down the right edge of the field in some Chrome/Edge builds. */
+:is(div, ul, ol, nav, aside, main, section, table) {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line-strong) transparent;
+}
+
+:is(div, ul, ol, nav, aside, main, section, table)::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+:is(div, ul, ol, nav, aside, main, section, table)::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+:is(div, ul, ol, nav, aside, main, section, table)::-webkit-scrollbar-thumb {
+  background-color: var(--color-line-strong);
+  border-radius: 999px;
+  /* Transparent border insets the thumb so it floats inside the track. */
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+:is(div, ul, ol, nav, aside, main, section, table)::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-muted);
+  background-clip: content-box;
+}
+
+:is(div, ul, ol, nav, aside, main, section, table)::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Text fields never show a scrollbar of any kind. */
+input,
+select {
+  scrollbar-width: none;
+}
+
+input::-webkit-scrollbar,
+select::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+/* Hide the browser's own icons inside text fields (autofill key/contact buttons,
+   Edge's password reveal and clear buttons). The login form draws its own eye icon. */
+input::-webkit-credentials-auto-fill-button,
+input::-webkit-contacts-auto-fill-button,
+input::-webkit-caps-lock-indicator {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
+@layer utilities {
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Recharts: keep axis text and grid quiet */
+.recharts-cartesian-axis-tick-value {
+  fill: var(--color-muted);
+  font-size: 12px;
+}
